@@ -1,0 +1,132 @@
+//=======C++ STL Container Array=========
+        //---------Algorithm examples------------
+#include <iostream>
+#include <array>
+#include <algorithm>
+#include <numeric>
+
+        //display function for array container
+void display(const std::array<int, 5>& arr) {
+    std::cout << "[ ";
+    for (auto i : arr) {                       //ranged-based for-loop
+        std::cout << i << " ";
+    }
+    std::cout << "]" << std::endl;
+ }
+
+        //Uses .size method & .front & .back methods
+void test_1() { 
+    std::cout << "\n=====Test 1=====" << std::endl;
+    std::array<int, 5> array_1{ 1,2,3,4,5 };
+    std::array<int, 5> array_2{};               //unintitialized contains garbage-data
+    display(array_1);
+    display(array_2);
+    array_2 = { 10,20,30,40,50 };
+    display(array_1);
+    display(array_2);
+    std::cout << "Size of array_1 is: " << array_1.size() << std::endl; //5
+    std::cout << "Size of array_2 is: " << array_2.size() << std::endl; //5
+    array_1[0] = 1000;                          //array_1 sub 0 initialized to 1000
+    array_1.at(1) = 2000;
+    display(array_1);
+    std::cout << "Front of array_2: " << array_2.front() << std::endl; //1000
+    std::cout << "Back of array_2: " << array_2.back() << std::endl;
+}
+
+        //Uses .fill method & .swap method
+void test_2() {
+    std::cout << "\n=====Test 2=====" << std::endl;
+    std::array<int, 5> array_1{ 1,2,3,4,5 };
+    std::array<int, 5> array_2{ 10,20,30,40,50 };
+    display(array_1);
+    display(array_2);
+    array_1.fill(0);                                //fill with 0s
+    display(array_1);
+    display(array_2);
+    array_1.swap(array_2); 
+    display(array_1);
+    display(array_2);
+}
+
+        //Initializes pointer to .data() and dereferences pointer to change array element
+void test_3() {
+    std::cout << "\n=====Test 3=====" << std::endl;
+    std::array<int, 5> array_1{ 1,2,3,4,5 };
+    int* ptr = array_1.data();      //pointer intialized to first address in the array
+    std::cout << ptr << std::endl;  //pointer that references the address
+    *ptr = 100000;                  //derefence the pointer                  
+    display(array_1);
+}
+
+        //Sort Array with .begin and .end iterators
+void test_4() {
+    std::cout << "\n=====Test 4====" << std::endl;
+    std::array<int, 5> array_1{ 2,1,4,5,3 };
+    display(array_1);
+    std::sort(array_1.begin(), array_1.end());
+    display(array_1);
+}
+
+        //Sorts through Array to find Min & Max numbers
+        //using min_element max_element algorithm returning
+        // min & max as iterators
+void test_5() {
+    std::array<int, 5> array_1{ 2,1,4,5,3 };
+    auto min_num = std::min_element(array_1.begin(), array_1.end());
+    auto max_num = std::max_element(array_1.begin(), array_1.end());
+    std::cout << "min: " << *min_num << "   max: " << *max_num << std::endl;
+}
+
+        //Adjacent Find Algorithm in an Array Container
+void test_6() {
+    std::cout << "\n=====Test 6=====" << std::endl;
+    std::array<int, 5> array_1{ 2,1,3,3,5 };
+    auto adjacent = std::adjacent_find(array_1.begin(), array_1.end());
+    if (adjacent != array_1.end())
+        std::cout << "Adjacent element found with value: " << *adjacent << std::endl; 
+                                                            //dereferenced the iterator
+    else
+        std::cout << "No adjacent elements found." << std::endl;
+}
+
+        //Accumulate Algorithm in Array Container #include <numeric>
+void test_7() {
+    std::cout << "\n=====Test 7=====" << std::endl;
+    std::array<int, 5> array_1{ 1,2,3,4,5 };
+    int sum = std::accumulate(array_1.begin(), array_1.end(), 0);
+    std::cout << "Sum of the elements in array_1 is: " << sum << std::endl;
+}
+
+        //Count Algorithm in Array Container
+void test_8() {
+    std::cout << "\n=====Test 8=====" << std::endl;
+    std::array<int, 11> array_1{ 1,2,3,1,2,3,3,3,3,3,3 };
+    int count = std::count(array_1.begin(), array_1.end(), 3);
+    std::cout << "Found 3: " << count << " times" << std::endl;
+}
+
+        //Count Algorithm with a Predicate Lambda Expression
+        //find how many numbers are between 10 and 200 -> 50,60,70,80
+void test_9() {
+    std::cout << "\n=====Test 9 =====" << std::endl;
+    std::array<int, 10> array_1{ 1,2,3,50,60,70,200,300,400 };
+        //find how many numbers are between 10 and 200 -> 50,60,70,80
+    int count = std::count_if(array_1.begin(), array_1.end(),
+            [](int x) {return x > 10 && x < 200; }); 
+    std::cout << "Found " << count << " matches " << std::endl;
+}
+
+int main()
+{
+    test_1();
+    test_2();
+    test_3();
+    test_4();
+    test_5();
+    test_6();
+    test_7();
+    test_8();
+    test_9();
+
+    return 0;
+}
